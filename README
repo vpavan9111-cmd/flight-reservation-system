@@ -1,0 +1,105 @@
+# ✈️ Flight Reservation System
+
+A simple Java console-based application that allows users to search for
+flights, book reservations, and view their bookings.
+
+------------------------------------------------------------------------
+
+## 🚀 How to Run the Application
+
+### **Prerequisites**
+
+-   Java **17** or higher\
+-   Maven **3.8+**
+
+------------------------------------------------------------------------
+
+### **1. Build the project**
+
+    mvn clean install
+
+### **2. Run the application**
+
+    mvn compile exec:java -Dexec.mainClass="com.example.flight.Main"
+
+### **3. Run tests**
+
+    mvn test
+
+------------------------------------------------------------------------
+
+## 🛠️ Design Decisions
+
+### **1. Layered Architecture**
+
+The project is organized into: - **model** (Flight, Reservation) -
+**service** (FlightService) - **ui** (Main console program) - **test**
+(JUnit tests)
+
+This separation improves readability, maintenance, and scalability.
+
+### **2. In-Memory Data Storage**
+
+Flights and reservations are stored in memory using lists.\
+This reduces complexity and keeps the project aligned with the
+assignment's requirement for a simple, self-contained system.
+
+### **3. Input Validation**
+
+To prevent crashes or invalid entries: - Customer names must contain
+only alphabetic characters.\
+- Seat numbers must be **positive integers**, preventing errors like:
+`For input string: "10.0"`
+
+Clear error messages guide the user when invalid input is entered.
+
+### **4. Prevention of Overbooking**
+
+A synchronized method in `Flight` ensures seat availability is updated
+safely:
+
+``` java
+public synchronized boolean reserveSeats(int seats)
+```
+
+This avoids multiple reservations using the same seat count in
+multi-thread scenarios.
+
+### **5. Test Coverage**
+
+JUnit 5 tests validate: - Searching flights - Booking reservations -
+Edge cases (overbooking, invalid input) - Multiple reservations for a
+customer
+
+------------------------------------------------------------------------
+
+## 🌍 Real-Life Considerations
+
+### **1. Thread Safety**
+
+Even though this is a console app, real airline systems must prevent
+overbooking.
+The synchronized seat reservation method simulates this real behavior.
+
+### **2. Input Validation**
+
+In real systems, users enter unpredictable values.\
+The application rejects: - Numeric names (e.g., `12345`) - Decimal or
+negative seat inputs (e.g., `10.0`, `-5`) - Empty values
+
+This ensures reliability and protects data integrity.
+
+### **3. Scalability Awareness**
+
+The architecture is intentionally designed so the system can later be
+upgraded to: - A REST API using Spring Boot\
+- A database-backed storage system\
+- Authentication and user accounts\
+- Real-time seat availability\
+- Multi-user concurrent booking
+
+### **4. Clean Separation of Concerns**
+
+Real-world systems require maintainability.\
+The clear boundaries between model, service, and UI layers make the
+system easy to extend or integrate with larger platforms.
